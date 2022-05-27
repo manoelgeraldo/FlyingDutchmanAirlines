@@ -5,15 +5,30 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
 {
     public class CustomerRepository
     {
+        private readonly FlyingDutchmanAirlinesContext _context;
+
+        public CustomerRepository(FlyingDutchmanAirlinesContext _context)
+        {
+            this._context = _context;
+        }
+
         public async Task<bool> CreateCustomer(string name){
             
             if (IsInvalidCustomerName(name)) { return false; }
             
-            Customer newCustomer = new (name);
+            try
+            {
+                Customer newCustomer = new (name);
             
-            using (FlyingDutchmanAirlinesContext context = new FlyingDutchmanAirlinesContext()){
-                context.Add(newCustomer);
-                await context.SaveChangesAsync();
+                using(_context){
+                    
+                    _context.Customers.Add(newCustomer);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch
+            {
+                return false;
             }
 
             return true;
