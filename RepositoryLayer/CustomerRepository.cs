@@ -1,17 +1,21 @@
+using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer
 {
     public class CustomerRepository
     {
-        public bool CreateCustomer(string name){
+        public async Task<bool> CreateCustomer(string name){
             
             if (IsInvalidCustomerName(name)) { return false; }
             
-            Customer newCustomer = new (name) {
-                Name = name
-            };
+            Customer newCustomer = new (name);
             
+            using (FlyingDutchmanAirlinesContext context = new FlyingDutchmanAirlinesContext()){
+                context.Add(newCustomer);
+                await context.SaveChangesAsync();
+            }
+
             return true;
         }
 

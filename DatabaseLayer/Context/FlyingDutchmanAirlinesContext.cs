@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 
-namespace FlyingDutchmanAirlines.DatabaseLayer.Context
+namespace FlyingDutchmanAirlines.DatabaseLayer
 {
     public class FlyingDutchmanAirlinesContext : DbContext
     {
