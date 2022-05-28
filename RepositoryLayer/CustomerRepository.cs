@@ -1,5 +1,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
+using FlyingDutchmanAirlines.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer
 {
@@ -18,7 +20,7 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
             
             try
             {
-                Customer newCustomer = new (name);
+                Customer newCustomer = new(name);
             
                 using(_context){
                     
@@ -36,9 +38,17 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
 
         private bool IsInvalidCustomerName(string name){
             
-            char[] forbiddenCharacters = {'!','@','#','$','%','&','8'};
+            char[] forbiddenCharacters = {'!','@','#','$','%','&','*'};
             
             return string.IsNullOrEmpty(name) || name.Any(x => forbiddenCharacters.Contains(x));
+        }
+
+        public async Task<Customer> GetCustomerByName(string name){
+            
+            if (IsInvalidCustomerName(name)) { throw new CustomerNotFoundException(); }
+
+            return await _context.Customers.FirstOrDefaultAsync(x => x.Name == name) ??
+                throw new CustomerNotFoundException();
         }
     }
 }

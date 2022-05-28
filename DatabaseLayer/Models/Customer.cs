@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FlyingDutchmanAirlines.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace FlyingDutchmanAirlines.DatabaseLayer.Models
 {
@@ -15,5 +17,13 @@ namespace FlyingDutchmanAirlines.DatabaseLayer.Models
             Bookings = new HashSet<Booking>();
             Name = name;
         }
+
+        public static bool operator == (Customer x, Customer y)
+        {
+            CustomerEqualityComparer comparer = new();
+            return comparer.Equals(x, y);
+        }
+
+        public static bool operator != (Customer x, Customer y) => !(x == y);
     }
 }
