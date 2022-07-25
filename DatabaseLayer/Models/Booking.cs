@@ -9,7 +9,7 @@ namespace FlyingDutchmanAirlines.DatabaseLayer.Models
         public int FlightNumber { get; set; }
         public int? CustomerId { get; set; }
 
-        public virtual Customer? Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         public virtual Flight FlightNumberNavigation { get; set; } = null!;
     }
 }

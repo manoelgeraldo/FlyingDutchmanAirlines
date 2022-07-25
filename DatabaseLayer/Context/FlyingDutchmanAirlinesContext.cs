@@ -15,6 +15,7 @@ namespace FlyingDutchmanAirlines.DatabaseLayer
         public FlyingDutchmanAirlinesContext(DbContextOptions<FlyingDutchmanAirlinesContext> options)
             : base(options)
         {
+            base.Database.EnsureDeleted();
         }
 
         public virtual DbSet<Airport> Airports { get; set; } = null!;
